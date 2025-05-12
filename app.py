@@ -1,5 +1,9 @@
+# Extend the Streamlit app with visualizations and save updated code
+
+streamlit_app_with_visuals = """
 import streamlit as st
 import pandas as pd
+import plotly.express as px
 
 # Load data
 @st.cache_data
@@ -52,8 +56,8 @@ def classify_performance(score):
 
 summary['KATEGORI TALENT'] = summary['SKOR AKHIR'].apply(classify_performance)
 
-# UI Streamlit
-st.title("AI Talent Pool Classification")
+# Streamlit UI
+st.title("AI Talent Pool Classification & Ranking")
 st.markdown("🔍 Klasifikasi pekerja berdasarkan skor akhir KPI dan kategori talent pool")
 
 filter_perusahaan = st.selectbox("🏢 Filter berdasarkan Perusahaan", options=["Semua"] + list(summary['PERUSAHAAN'].unique()))
@@ -64,5 +68,34 @@ else:
 
 st.dataframe(filtered)
 
+# Visualisasi: Pie Chart Distribusi Talent
+st.subheader("📊 Distribusi Talent Pool")
+fig_pie = px.pie(filtered, names='KATEGORI TALENT', title='Distribusi Kategori Talent')
+st.plotly_chart(fig_pie)
+
+# Visualisasi: Bar Chart Skor Tertinggi
+st.subheader("🏅 Top 10 Pekerja Berdasarkan Skor Akhir KPI")
+top_10 = filtered.sort_values('SKOR AKHIR', ascending=False).head(10)
+fig_bar = px.bar(top_10, x='POSISI PEKERJA', y='SKOR AKHIR', color='KATEGORI TALENT', text='SKOR AKHIR')
+st.plotly_chart(fig_bar)
+
 # Download Excel
 st.download_button("📥 Download Talent Classification (Excel)", data=filtered.to_csv(index=False), file_name="talent_classification.csv", mime="text/csv")
+"""
+
+# Save as updated Streamlit script
+with open("/mnt/data/ai_talent_pool_app_with_visuals.py", "w") as f:
+    f.write(streamlit_app_with_visuals)
+
+# Also prepare updated requirements.txt
+requirements_updated = "streamlit>=1.32.0\npandas>=1.5.0\nplotly>=5.0.0\n"
+
+with open("/mnt/data/requirements_talent_app.txt", "w") as f:
+    f.write(requirements_updated)
+
+{
+  "streamlit_app": "/mnt/data/ai_talent_pool_app_with_visuals.py",
+  "requirements": "/mnt/data/requirements_talent_app.txt"
+}
+
+
