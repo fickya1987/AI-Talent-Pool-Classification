@@ -83,19 +83,5 @@ st.plotly_chart(fig_bar)
 st.download_button("📥 Download Talent Classification (Excel)", data=filtered.to_csv(index=False), file_name="talent_classification.csv", mime="text/csv")
 """
 
-# Save as updated Streamlit script
-with open("/mnt/data/ai_talent_pool_app_with_visuals.py", "w") as f:
-    f.write(streamlit_app_with_visuals)
-
-# Also prepare updated requirements.txt
-requirements_updated = "streamlit>=1.32.0\npandas>=1.5.0\nplotly>=5.0.0\n"
-
-with open("/mnt/data/requirements_talent_app.txt", "w") as f:
-    f.write(requirements_updated)
-
-{
-  "streamlit_app": "/mnt/data/ai_talent_pool_app_with_visuals.py",
-  "requirements": "/mnt/data/requirements_talent_app.txt"
-}
 
 
