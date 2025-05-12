@@ -77,9 +77,6 @@ st.subheader("🏅 Top 10 Pekerja Berdasarkan Skor Akhir KPI")
 top_10 = filtered.sort_values('SKOR AKHIR', ascending=False).head(10)
 fig_bar = px.bar(top_10, x='POSISI PEKERJA', y='SKOR AKHIR', color='KATEGORI TALENT', text='SKOR AKHIR')
 st.plotly_chart(fig_bar)
-
-# Download Excel
-st.download_button("📥 Download Talent Classification (Excel)", data=filtered.to_csv(index=False), file_name="talent_classification.csv", mime="text/csv")
 """
 
 
